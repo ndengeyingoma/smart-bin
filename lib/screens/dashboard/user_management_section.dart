@@ -7,13 +7,13 @@ class UserManagementSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text(
+      children: [
+        const Text(
           'User Management',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10),
-        Text('Manage users, roles, and permissions here.'),
+        const SizedBox(height: 10),
+        const Text('Manage users, roles, and permissions here.'),
       ],
     );
   }
