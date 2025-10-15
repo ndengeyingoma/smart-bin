@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   final String id;
   final String username;
   final String email;
-  final String role; // 'admin' or 'user'
+  final String role;
   final String? token;
 
   User({
@@ -13,23 +15,32 @@ class User {
     this.token,
   });
 
+  factory User.fromFirestore(DocumentSnapshot doc, String? token) {
+    Map data = doc.data() as Map<String, dynamic>;;
+    return User(
+      id: doc.id,
+      username: data['username'] ?? '',
+      email: data['email'] ?? '',
+      role: data['role'] ?? 'user',
+      token: token,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'username': username,
+        'email': email,
+        'role': role,
+        'token': token,
+      };
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['_id'] ?? json['id'],
+      id: json['id'],
       username: json['username'],
       email: json['email'],
       role: json['role'],
       token: json['token'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'username': username,
-      'email': email,
-      'role': role,
-      'token': token,
-    };
   }
 }

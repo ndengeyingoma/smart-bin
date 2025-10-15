@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/auth_service.dart';
 import '../dashboard/dashboard_page.dart';
-import '../../models/user_role.dart';
 import '../../widgets/responsive_background.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -71,283 +71,256 @@ class _LoginPageState extends State<LoginPage>
     return Scaffold(
       body: ResponsiveBackground(
         child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: screenSize.height),
-            child: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.all(screenSize.width * 0.05),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // App Logo/Icon (Responsive)
-                    Container(
-                      width: screenSize.width * 0.3,
-                      height: screenSize.width * 0.3,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.delete_outline,
-                        size: screenSize.width * 0.15,
-                        color: Colors.green,
-                      ),
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.all(screenSize.width * 0.05),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // App Logo/Icon (Responsive)
+                  Container(
+                    width: screenSize.width * 0.3,
+                    height: screenSize.width * 0.3,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: screenSize.height * 0.03),
-
-                    // Animated Title with Bouncing Effect Per Word
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.width * 0.02,
-                        vertical: screenSize.height * 0.02,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 15,
-                            offset: const Offset(0, 5),
-                          ),
-                        ],
-                      ),
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        children: List.generate(_titleWords.length, (index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: screenSize.width * 0.008,
-                            ),
-                            child: AnimatedBuilder(
-                              animation: _titleController,
-                              builder: (context, child) {
-                                return Transform.translate(
-                                  offset: _wordOffsetAnimations[index].value,
-                                  child: Transform.scale(
-                                    scale: _wordScaleAnimations[index].value,
-                                    child: Text(
-                                      _titleWords[index],
-                                      style: TextStyle(
-                                        fontSize: _getResponsiveFontSize(
-                                          screenSize,
-                                        ),
-                                        fontWeight: FontWeight.bold,
-                                        color: _getWordColor(index),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }),
-                      ),
+                    child: Icon(
+                      Icons.delete_outline,
+                      size: screenSize.width * 0.15,
+                      color: Colors.green,
                     ),
-                    SizedBox(height: screenSize.height * 0.04),
+                  ),
+                  SizedBox(height: screenSize.height * 0.03),
 
-                    // Login Form Container
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(screenSize.width * 0.05),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
+                  // Animated Title with Bouncing Effect Per Word
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenSize.width * 0.02,
+                      vertical: screenSize.height * 0.02,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 15,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      children: List.generate(_titleWords.length, (index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: screenSize.width * 0.008,
                           ),
-                        ],
-                      ),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: _emailController,
-                              decoration: InputDecoration(
-                                labelText: 'Email/Username',
-                                prefixIcon: const Icon(Icons.email),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: screenSize.height * 0.02,
-                                ),
-                              ),
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Please enter your email'
-                                      : null,
-                            ),
-                            SizedBox(height: screenSize.height * 0.02),
-                            TextFormField(
-                              controller: _passwordController,
-                              obscureText: _obscurePassword,
-                              decoration: InputDecoration(
-                                labelText: 'Password',
-                                prefixIcon: const Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _obscurePassword
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                  ),
-                                  onPressed: () => setState(
-                                    () => _obscurePassword = !_obscurePassword,
-                                  ),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: screenSize.height * 0.02,
-                                ),
-                              ),
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Please enter your password'
-                                      : null,
-                            ),
-                            SizedBox(height: screenSize.height * 0.03),
-                            authService.isLoading
-                                ? const CircularProgressIndicator()
-                                : ElevatedButton(
-                                    onPressed: () async {
-                                      if (_formKey.currentState!.validate()) {
-                                        try {
-                                          await authService.login(
-                                            _emailController.text,
-                                            _passwordController.text,
-                                          );
-
-                                          final email = _emailController.text
-                                              .trim();
-
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DashboardPage(
-                                                userName: email.split(
-                                                  '@',
-                                                )[0],
-                                                email: email,
-                                              ),
-                                            ),
-                                          );
-                                        } catch (e) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              content: Text('Login failed: $e'),
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                            ),
-                                          );
-                                        }
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(
-                                        double.infinity,
-                                        screenSize.height * 0.06,
-                                      ),
-                                      backgroundColor: Colors.green,
-                                      foregroundColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      elevation: 5,
-                                    ),
-                                    child: Text(
-                                      'Login',
-                                      style: TextStyle(
-                                        fontSize:
-                                            _getResponsiveFontSize(screenSize) *
-                                                0.8,
-                                      ),
-                                    ),
-                                  ),
-                            SizedBox(height: screenSize.height * 0.02),
-
-                            // Demo Credentials
-                            Container(
-                              padding: EdgeInsets.all(screenSize.width * 0.03),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade50,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.grey.shade300),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Let make our school smart and clean !',
+                          child: AnimatedBuilder(
+                            animation: _titleController,
+                            builder: (context, child) {
+                              return Transform.translate(
+                                offset: _wordOffsetAnimations[index].value,
+                                child: Transform.scale(
+                                  scale: _wordScaleAnimations[index].value,
+                                  child: AutoSizeText(
+                                    _titleWords[index],
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          _getResponsiveFontSize(screenSize) *
-                                              0.7,
+                                      color: _getWordColor(index),
                                     ),
+                                    maxLines: 1,
                                   ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    'Together we can achieve a clean environment.',
-                                    style: TextStyle(
-                                      fontSize:
-                                          _getResponsiveFontSize(screenSize) *
-                                              0.6,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Be smart with clean environment.',
-                                    style: TextStyle(
-                                      fontSize:
-                                          _getResponsiveFontSize(screenSize) *
-                                              0.6,
-                                    ),
-                                  ),
-                                ],
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                  SizedBox(height: screenSize.height * 0.04),
+
+                  // Login Form Container
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(screenSize.width * 0.05),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              labelText: 'Email/Username',
+                              prefixIcon: const Icon(Icons.email),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: screenSize.height * 0.02,
                               ),
                             ),
-                          ],
-                        ),
+                            validator: (value) =>
+                                value == null || value.isEmpty
+                                    ? 'Please enter your email'
+                                    : null,
+                          ),
+                          SizedBox(height: screenSize.height * 0.02),
+                          TextFormField(
+                            controller: _passwordController,
+                            obscureText: _obscurePassword,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              prefixIcon: const Icon(Icons.lock),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () => setState(
+                                  () => _obscurePassword = !_obscurePassword,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: screenSize.height * 0.02,
+                              ),
+                            ),
+                            validator: (value) =>
+                                value == null || value.isEmpty
+                                    ? 'Please enter your password'
+                                    : null,
+                          ),
+                          SizedBox(height: screenSize.height * 0.03),
+                          authService.isLoading
+                              ? const CircularProgressIndicator()
+                              : ElevatedButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      try {
+                                        await authService.login(
+                                          _emailController.text,
+                                          _passwordController.text,
+                                        );
+
+                                        final email = _emailController.text
+                                            .trim();
+
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                DashboardPage(
+                                              userName: email.split(
+                                                '@',
+                                              )[0],
+                                              email: email,
+                                            ),
+                                          ),
+                                        );
+                                      } catch (e) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Login failed: $e'),
+                                            behavior:
+                                                SnackBarBehavior.floating,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: Size(
+                                      double.infinity,
+                                      screenSize.height * 0.06,
+                                    ),
+                                    backgroundColor: Colors.green,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    elevation: 5,
+                                  ),
+                                  child: const Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                          SizedBox(height: screenSize.height * 0.02),
+
+                          // Demo Credentials
+                          Container(
+                            padding: EdgeInsets.all(screenSize.width * 0.03),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey.shade300),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Let make our school smart and clean !',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  'Together we can achieve a clean environment.',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(
+                                  'Be smart with clean environment.',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                ],
               ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  // Responsive font size calculation
-  double _getResponsiveFontSize(Size screenSize) {
-    if (screenSize.width < 350) {
-      return 16; // Very small screens
-    } else if (screenSize.width < 600) {
-      return 20; // Mobile phones
-    } else if (screenSize.width < 900) {
-      return 24; // Tablets
-    } else {
-      return 28; // Large screens
-    }
   }
 
   // Color coding for each word

@@ -1,28 +1,34 @@
-class Bin {
-  final String id;
-  final String name;
-  final String location;
-  final double fillLevel;
-  final String status;
-  final DateTime lastUpdated;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-  Bin({
+class BinModel {
+  final String id;
+  final GeoPoint location;
+  final String status;
+  final Timestamp lastUpdated;
+
+  BinModel({
     required this.id,
-    required this.name,
     required this.location,
-    required this.fillLevel,
     required this.status,
     required this.lastUpdated,
   });
 
-  factory Bin.fromJson(Map<String, dynamic> json) {
-    return Bin(
-      id: json['_id'] ?? json['id'],
-      name: json['name'],
-      location: json['location'],
-      fillLevel: (json['fillLevel'] ?? 0.0).toDouble(),
-      status: json['status'] ?? 'unknown',
-      lastUpdated: DateTime.parse(json['lastUpdated']),
+  // Factory constructor to create a BinModel from a map
+  factory BinModel.fromMap(Map<String, dynamic> data, String documentId) {
+    return BinModel(
+      id: documentId,
+      location: data['location'] ?? GeoPoint(0, 0),
+      status: data['status'] ?? 'unknown',
+      lastUpdated: data['lastUpdated'] ?? Timestamp.now(),
     );
+  }
+
+  // Method to convert a BinModel to a map
+  Map<String, dynamic> toMap() {
+    return {
+      'location': location,
+      'status': status,
+      'lastUpdated': lastUpdated,
+    };
   }
 }

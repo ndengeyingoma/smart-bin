@@ -6,11 +6,10 @@ class FooterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      alignment: Alignment.center,
-      child: const Text(
-        '© 2025 Smart Bin Inc.',
-        style: TextStyle(fontSize: 14, color: Colors.grey),
+      padding: const EdgeInsets.all(20.0),
+      color: Colors.grey[200],
+      child: const Center(
+        child: Text('© 2024 Your Company. All rights reserved.'),
       ),
     );
   }

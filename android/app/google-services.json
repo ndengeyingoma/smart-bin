@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "469234905357",
+    "project_id": "smart-waste-app-7749b",
+    "storage_bucket": "smart-waste-app-7749b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469234905357:android:c9959ae520597fbc36c044",
+        "android_client_info": {
+          "package_name": "com.nmait.ac.tz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmbp9hPK8I--oCz1sgVYcRc_DzbijGsac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,12 +6,18 @@ class CustomNavigationBar extends StatelessWidget
   final VoidCallback onLoginPressed;
   final bool isAuthenticated;
   final VoidCallback onLogoutPressed;
+  final VoidCallback onHomePressed;
+  final VoidCallback onServicesPressed;
+  final VoidCallback onContactUsPressed;
 
   const CustomNavigationBar({
     required this.title,
     required this.onLoginPressed,
     required this.isAuthenticated,
     required this.onLogoutPressed,
+    required this.onHomePressed,
+    required this.onServicesPressed,
+    required this.onContactUsPressed,
     super.key,
   });
 
@@ -25,6 +31,18 @@ class CustomNavigationBar extends StatelessWidget
     return AppBar(
       title: Text(title),
       actions: [
+        TextButton(
+          onPressed: onHomePressed,
+          child: const Text('Home', style: TextStyle(color: Colors.white)),
+        ),
+        TextButton(
+          onPressed: onServicesPressed,
+          child: const Text('Services', style: TextStyle(color: Colors.white)),
+        ),
+        TextButton(
+          onPressed: onContactUsPressed,
+          child: const Text('Contact Us', style: TextStyle(color: Colors.white)),
+        ),
         if (!isAuthenticated)
           isWide
               ? TextButton.icon(

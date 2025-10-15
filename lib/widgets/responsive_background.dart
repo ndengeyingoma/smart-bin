@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 class ResponsiveBackground extends StatelessWidget {
   final Widget child;
 
-  const ResponsiveBackground({Key? key, required this.child}) : super(key: key);
+  const ResponsiveBackground({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.blue.shade200, Colors.green.shade200],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF1a237e),
+            Color(0xFF004d40),
+          ],
         ),
       ),
       child: child,

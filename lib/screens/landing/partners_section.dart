@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class PartnersSection extends StatelessWidget {
   const PartnersSection({super.key});
@@ -6,34 +7,23 @@ class PartnersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.orange[50]!, Colors.red[50]!],
-        ),
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+      color: Colors.white,
       child: Column(
         children: [
           Text(
-            'Our Partners',
+            'Our Trusted Partners',
             style: TextStyle(
-              fontSize: 32,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: Colors.orange[800],
+              color: Colors.blue[800],
             ),
           ),
-          SizedBox(height: 20),
-          Text(
-            'We collaborate with leading organizations in waste management and smart city solutions',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-          ),
-          SizedBox(height: 30),
+          const SizedBox(height: 20),
           Wrap(
             spacing: 20,
             runSpacing: 20,
+            alignment: WrapAlignment.center,
             children: [
               _buildPartnerCard('Eco Solutions Inc.', Icons.eco, Colors.green),
               _buildPartnerCard(
@@ -73,24 +63,27 @@ class PartnersSection extends StatelessWidget {
       elevation: 4,
       child: Container(
         width: 150,
-        height: 120,
-        padding: EdgeInsets.all(16),
+        height: 150,
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: color.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, size: 30, color: color),
             ),
-            SizedBox(height: 8),
-            Text(
-              name,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold, color: color),
+            const SizedBox(height: 8),
+            Expanded(
+              child: AutoSizeText(
+                name,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, color: color),
+                maxLines: 2,
+              ),
             ),
           ],
         ),
