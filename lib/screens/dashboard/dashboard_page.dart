@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/auth_service.dart';
 import '../landing/landing_page.dart';
+import '../../widgets/responsive_background.dart';
 
 class DashboardPage extends StatelessWidget {
   final String userName;
@@ -121,322 +122,317 @@ class DashboardPage extends StatelessWidget {
           ];
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-      body: CustomScrollView(
-        slivers: [
-          // App Bar with gradient
-          SliverAppBar(
-            expandedHeight: screenSize.height * 0.2,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Colors.blue.shade600, Colors.green.shade600],
-                  ),
-                ),
-                child: SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.all(screenSize.width * 0.05),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  greeting,
-                                  style: TextStyle(
-                                    fontSize:
-                                        _getResponsiveFontSize(screenSize) *
-                                        1.2,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                Text(
-                                  "Here's your waste management overview",
-                                  style: TextStyle(
-                                    fontSize:
-                                        _getResponsiveFontSize(screenSize) *
-                                        0.8,
-                                    color: Colors.white.withOpacity(0.9),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: Icon(
-                                isAdmin
-                                    ? Icons.admin_panel_settings
-                                    : Icons.person,
-                                color: Colors.blue.shade600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+      body: ResponsiveBackground(
+        child: CustomScrollView(
+          slivers: [
+            // App Bar with gradient
+            SliverAppBar(
+              expandedHeight: screenSize.height * 0.2,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Colors.blue.shade600, Colors.green.shade600],
                     ),
                   ),
-                ),
-              ),
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.logout, color: Colors.white),
-                onPressed: () {
-                  Provider.of<AuthService>(context, listen: false).logout();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LandingPage()),
-                  );
-                },
-              ),
-            ],
-          ),
-
-          // Main Content
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.all(screenSize.width * 0.04),
-              child: Column(
-                children: [
-                  // Metrics Cards
-                  SizedBox(height: screenSize.height * 0.02),
-                  Text(
-                    "Overview",
-                    style: TextStyle(
-                      fontSize: _getResponsiveFontSize(screenSize) * 1.1,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * 0.02),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: screenSize.width < 600 ? 3 : 4,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                      childAspectRatio: 0.8,
-                    ),
-                    itemCount: metrics.length,
-                    itemBuilder: (context, index) {
-                      final metric = metrics[index];
-                      return Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                (metric['color'] as Color).withOpacity(0.1),
-                                (metric['color'] as Color).withOpacity(0.05),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: EdgeInsets.all(screenSize.width * 0.05),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Icon(
-                                metric['icon'] as IconData,
-                                size: screenSize.width * 0.08,
-                                color: metric['color'] as Color,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    greeting,
+                                    style: TextStyle(
+                                      fontSize:
+                                          _getResponsiveFontSize(screenSize) *
+                                              1.2,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    "Here's your waste management overview",
+                                    style: TextStyle(
+                                      fontSize:
+                                          _getResponsiveFontSize(screenSize) *
+                                              0.8,
+                                      color: Colors.white.withOpacity(0.9),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 10),
-                              Text(
-                                metric['value'] as String,
-                                style: TextStyle(
-                                  fontSize:
-                                      _getResponsiveFontSize(screenSize) * 1.3,
-                                  fontWeight: FontWeight.bold,
-                                  color: metric['color'] as Color,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                metric['title'] as String,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize:
-                                      _getResponsiveFontSize(screenSize) * 0.7,
-                                  color: Colors.grey.shade700,
+                              CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  isAdmin
+                                      ? Icons.admin_panel_settings
+                                      : Icons.person,
+                                  color: Colors.blue.shade600,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      );
-                    },
-                  ),
-
-                  // Quick Actions
-                  SizedBox(height: screenSize.height * 0.04),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(screenSize.width * 0.04),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 15,
-                          offset: Offset(0, 5),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Quick Actions",
-                          style: TextStyle(
-                            fontSize: _getResponsiveFontSize(screenSize) * 1.1,
-                            fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.logout, color: Colors.white),
+                  onPressed: () {
+                    Provider.of<AuthService>(context, listen: false).logout();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LandingPage()),
+                    );
+                  },
+                ),
+              ],
+            ),
+
+            // Main Content
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(screenSize.width * 0.04),
+                child: Column(
+                  children: [
+                    // Metrics Cards
+                    SizedBox(height: screenSize.height * 0.02),
+                    Text(
+                      "Overview",
+                      style: TextStyle(
+                        fontSize: _getResponsiveFontSize(screenSize) * 1.1,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: screenSize.height * 0.02),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: screenSize.width < 600 ? 3 : 4,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15,
+                        childAspectRatio: 0.8,
+                      ),
+                      itemCount: metrics.length,
+                      itemBuilder: (context, index) {
+                        final metric = metrics[index];
+                        return Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                        ),
-                        SizedBox(height: screenSize.height * 0.02),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: screenSize.width < 600 ? 2 : 4,
-                                crossAxisSpacing: 15,
-                                mainAxisSpacing: 15,
-                                childAspectRatio: 2.5,
-                              ),
-                          itemCount: quickActions.length,
-                          itemBuilder: (context, index) {
-                            final action = quickActions[index];
-                            return ElevatedButton.icon(
-                              onPressed: () {
-                                // Add action functionality here
-                              },
-                              icon: Icon(
-                                action['icon'] as IconData,
-                                size: _getResponsiveFontSize(screenSize) * 0.9,
-                              ),
-                              label: Text(
-                                action['title'] as String,
+                          color: Colors.white.withOpacity(0.8),
+                          child: Container(
+                            padding: const EdgeInsets.all(15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  metric['icon'] as IconData,
+                                  size: screenSize.width * 0.08,
+                                  color: metric['color'] as Color,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  metric['value'] as String,
+                                  style: TextStyle(
+                                    fontSize:
+                                        _getResponsiveFontSize(screenSize) * 1.3,
+                                    fontWeight: FontWeight.bold,
+                                    color: metric['color'] as Color,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  metric['title'] as String,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize:
+                                        _getResponsiveFontSize(screenSize) * 0.7,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    // Quick Actions
+                    SizedBox(height: screenSize.height * 0.04),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(screenSize.width * 0.04),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Quick Actions",
+                            style: TextStyle(
+                              fontSize: _getResponsiveFontSize(screenSize) * 1.1,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: screenSize.height * 0.02),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: screenSize.width < 600 ? 2 : 4,
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 15,
+                              childAspectRatio: 2.5,
+                            ),
+                            itemCount: quickActions.length,
+                            itemBuilder: (context, index) {
+                              final action = quickActions[index];
+                              return ElevatedButton.icon(
+                                onPressed: () {
+                                  // Add action functionality here
+                                },
+                                icon: Icon(
+                                  action['icon'] as IconData,
+                                  size: _getResponsiveFontSize(screenSize) * 0.9,
+                                ),
+                                label: Text(
+                                  action['title'] as String,
+                                  style: TextStyle(
+                                    fontSize:
+                                        _getResponsiveFontSize(screenSize) * 0.8,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: action['color'] as Color,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  elevation: 3,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: screenSize.width * 0.03,
+                                    vertical: screenSize.height * 0.02,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Recent Alerts
+                    SizedBox(height: screenSize.height * 0.04),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(screenSize.width * 0.04),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.warning, color: Colors.orange),
+                              const SizedBox(width: 10),
+                              Text(
+                                "Recent Alerts",
                                 style: TextStyle(
                                   fontSize:
-                                      _getResponsiveFontSize(screenSize) * 0.8,
+                                      _getResponsiveFontSize(screenSize) * 1.1,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: action['color'] as Color,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                            ],
+                          ),
+                          SizedBox(height: screenSize.height * 0.02),
+                          ...alerts.map((alert) {
+                            return Card(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              color: _getAlertColor(alert['priority'] as String)
+                                  .withOpacity(0.9),
+                              child: ListTile(
+                                leading: Icon(
+                                  Icons.warning,
+                                  color: _getAlertIconColor(
+                                    alert['priority'] as String,
+                                  ),
                                 ),
-                                elevation: 3,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: screenSize.width * 0.03,
-                                  vertical: screenSize.height * 0.02,
+                                title: Text(
+                                  "Bin ${alert['binId']}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        _getResponsiveFontSize(screenSize) * 0.9,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  alert['message'] as String,
+                                  style: TextStyle(
+                                    fontSize:
+                                        _getResponsiveFontSize(screenSize) * 0.8,
+                                  ),
+                                ),
+                                trailing: Text(
+                                  alert['time'] as String,
+                                  style: TextStyle(
+                                    fontSize:
+                                        _getResponsiveFontSize(screenSize) * 0.7,
+                                    color: Colors.grey.shade600,
+                                  ),
                                 ),
                               ),
                             );
-                          },
-                        ),
-                      ],
+                          }),
+                        ],
+                      ),
                     ),
-                  ),
-
-                  // Recent Alerts
-                  SizedBox(height: screenSize.height * 0.04),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(screenSize.width * 0.04),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 15,
-                          offset: Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.warning, color: Colors.orange),
-                            SizedBox(width: 10),
-                            Text(
-                              "Recent Alerts",
-                              style: TextStyle(
-                                fontSize:
-                                    _getResponsiveFontSize(screenSize) * 1.1,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenSize.height * 0.02),
-                        ...alerts.map((alert) {
-                          return Card(
-                            margin: EdgeInsets.only(bottom: 10),
-                            color: _getAlertColor(alert['priority'] as String),
-                            child: ListTile(
-                              leading: Icon(
-                                Icons.warning,
-                                color: _getAlertIconColor(
-                                  alert['priority'] as String,
-                                ),
-                              ),
-                              title: Text(
-                                "Bin ${alert['binId']}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      _getResponsiveFontSize(screenSize) * 0.9,
-                                ),
-                              ),
-                              subtitle: Text(
-                                alert['message'] as String,
-                                style: TextStyle(
-                                  fontSize:
-                                      _getResponsiveFontSize(screenSize) * 0.8,
-                                ),
-                              ),
-                              trailing: Text(
-                                alert['time'] as String,
-                                style: TextStyle(
-                                  fontSize:
-                                      _getResponsiveFontSize(screenSize) * 0.7,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * 0.04),
-                ],
+                    SizedBox(height: screenSize.height * 0.04),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

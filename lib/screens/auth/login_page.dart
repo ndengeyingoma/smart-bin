@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../services/auth_service.dart';
 import '../dashboard/dashboard_page.dart';
 import '../../models/user_role.dart';
+import '../../widgets/responsive_background.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage>
 
     // Initialize title animation
     _titleController = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
       vsync: this,
     )..repeat(reverse: true);
 
@@ -49,7 +50,7 @@ class _LoginPageState extends State<LoginPage>
       _wordOffsetAnimations.add(
         Tween<Offset>(
           begin: Offset.zero,
-          end: Offset(0.0, -0.3), // Bounce upward
+          end: const Offset(0.0, -0.3), // Bounce upward
         ).animate(delayedAnimation),
       );
 
@@ -66,24 +67,9 @@ class _LoginPageState extends State<LoginPage>
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     final screenSize = MediaQuery.of(context).size;
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.blue.shade50,
-              Colors.green.shade50,
-              Colors.blue.shade100,
-            ],
-          ),
-        ),
+      body: ResponsiveBackground(
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: screenSize.height),
@@ -104,7 +90,7 @@ class _LoginPageState extends State<LoginPage>
                           BoxShadow(
                             color: Colors.black26,
                             blurRadius: 10,
-                            offset: Offset(0, 4),
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
@@ -129,7 +115,7 @@ class _LoginPageState extends State<LoginPage>
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 15,
-                            offset: Offset(0, 5),
+                            offset: const Offset(0, 5),
                           ),
                         ],
                       ),
@@ -178,7 +164,7 @@ class _LoginPageState extends State<LoginPage>
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 20,
-                            offset: Offset(0, 10),
+                            offset: const Offset(0, 10),
                           ),
                         ],
                       ),
@@ -190,7 +176,7 @@ class _LoginPageState extends State<LoginPage>
                               controller: _emailController,
                               decoration: InputDecoration(
                                 labelText: 'Email/Username',
-                                prefixIcon: Icon(Icons.email),
+                                prefixIcon: const Icon(Icons.email),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
@@ -201,8 +187,8 @@ class _LoginPageState extends State<LoginPage>
                               ),
                               validator: (value) =>
                                   value == null || value.isEmpty
-                                  ? 'Please enter your email'
-                                  : null,
+                                      ? 'Please enter your email'
+                                      : null,
                             ),
                             SizedBox(height: screenSize.height * 0.02),
                             TextFormField(
@@ -210,7 +196,7 @@ class _LoginPageState extends State<LoginPage>
                               obscureText: _obscurePassword,
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                prefixIcon: Icon(Icons.lock),
+                                prefixIcon: const Icon(Icons.lock),
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscurePassword
@@ -231,12 +217,12 @@ class _LoginPageState extends State<LoginPage>
                               ),
                               validator: (value) =>
                                   value == null || value.isEmpty
-                                  ? 'Please enter your password'
-                                  : null,
+                                      ? 'Please enter your password'
+                                      : null,
                             ),
                             SizedBox(height: screenSize.height * 0.03),
                             authService.isLoading
-                                ? CircularProgressIndicator()
+                                ? const CircularProgressIndicator()
                                 : ElevatedButton(
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
@@ -248,21 +234,17 @@ class _LoginPageState extends State<LoginPage>
 
                                           final email = _emailController.text
                                               .trim();
-                                          final role =
-                                              email == 'admin@smartbin.com'
-                                              ? UserRole.admin
-                                              : UserRole.user;
 
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   DashboardPage(
-                                                    userName: email.split(
-                                                      '@',
-                                                    )[0],
-                                                    email: email,
-                                                  ),
+                                                userName: email.split(
+                                                  '@',
+                                                )[0],
+                                                email: email,
+                                              ),
                                             ),
                                           );
                                         } catch (e) {
@@ -295,7 +277,7 @@ class _LoginPageState extends State<LoginPage>
                                       style: TextStyle(
                                         fontSize:
                                             _getResponsiveFontSize(screenSize) *
-                                            0.8,
+                                                0.8,
                                       ),
                                     ),
                                   ),
@@ -318,16 +300,16 @@ class _LoginPageState extends State<LoginPage>
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           _getResponsiveFontSize(screenSize) *
-                                          0.7,
+                                              0.7,
                                     ),
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Text(
                                     'Together we can achieve a clean environment.',
                                     style: TextStyle(
                                       fontSize:
                                           _getResponsiveFontSize(screenSize) *
-                                          0.6,
+                                              0.6,
                                     ),
                                   ),
                                   Text(
@@ -335,7 +317,7 @@ class _LoginPageState extends State<LoginPage>
                                     style: TextStyle(
                                       fontSize:
                                           _getResponsiveFontSize(screenSize) *
-                                          0.6,
+                                              0.6,
                                     ),
                                   ),
                                 ],
