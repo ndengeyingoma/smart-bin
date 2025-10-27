@@ -6,7 +6,7 @@ class ServicesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -24,7 +24,7 @@ class ServicesSection extends StatelessWidget {
               color: Colors.purple[800],
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           _buildServiceItem(
             'Bin Level Monitoring',
             'Real-time tracking of waste levels',
@@ -41,7 +41,7 @@ class ServicesSection extends StatelessWidget {
             'Maintenance Alerts',
             'Proactive maintenance notifications',
             Icons.warning,
-            Colors.orange,
+            Colors.orange.withAlpha((0.06 * 255).round()),
           ),
           _buildServiceItem(
             'Reporting & Analytics',
@@ -61,11 +61,11 @@ class ServicesSection extends StatelessWidget {
     Color color,
   ) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       elevation: 3,
       child: ListTile(
         leading: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: color.withOpacity(0.2),
             shape: BoxShape.circle,

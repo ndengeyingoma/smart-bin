@@ -11,14 +11,14 @@ class MetricCard extends StatelessWidget {
     return Card(
       child: Container(
         width: 100,
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Column(
           children: [
             Text(
               value,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            Text(title, style: TextStyle(fontSize: 14)),
+            Text(title, style: const TextStyle(fontSize: 14)),
           ],
         ),
       ),

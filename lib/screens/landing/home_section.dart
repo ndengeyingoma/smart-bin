@@ -8,7 +8,7 @@ class HomeSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -20,12 +20,12 @@ class HomeSection extends StatelessWidget {
           children: [
             // Header
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.teal,
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Column(
+              child: const Column(
                 children: [
                   Icon(Icons.delete, size: 60, color: Colors.white),
                   SizedBox(height: 10),
@@ -47,7 +47,7 @@ class HomeSection extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             // Features
             _buildFeatureCard(
@@ -75,20 +75,21 @@ class HomeSection extends StatelessWidget {
               color: Colors.green,
             ),
 
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               },
-              icon: Icon(Icons.login),
-              label: Text('Get Started - Login Now'),
+              icon: const Icon(Icons.login),
+              label: const Text('Get Started - Login Now'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               ),
             ),
           ],
@@ -105,7 +106,7 @@ class HomeSection extends StatelessWidget {
   }) {
     return Card(
       elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Container(
         decoration: BoxDecoration(
           border: Border(left: BorderSide(color: color, width: 5)),

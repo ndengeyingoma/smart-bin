@@ -3,8 +3,11 @@ import 'package:provider/provider.dart';
 import 'services/auth_service.dart';
 import 'screens/landing/landing_page.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  // ✅ Ensure Flutter is initialized before anything else (fixes NotInitializedError)
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -13,17 +16,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AuthService()..loadUser(),
+      create: (context) => AuthService(),
       child: MaterialApp(
         title: 'Smart Bin Monitoring',
         theme: ThemeData(
           primaryColor: Colors.teal,
-          colorScheme: ColorScheme.light(
+          colorScheme: const ColorScheme.light(
             primary: Colors.teal,
             secondary: Colors.orange,
             surface: Colors.white,
           ),
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             backgroundColor: Colors.teal,
             foregroundColor: Colors.white,
           ),
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: LandingPage(),
+        home: const LandingPage(),
         debugShowCheckedModeBanner: false,
       ),
     );

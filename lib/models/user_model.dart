@@ -1,21 +1,22 @@
+// lib/models/user_model.dart
 class User {
   final String id;
   final String username;
   final String email;
-  final String role; // 'admin' or 'user'
-  final String? token;
+  final String role;
+  final String token;
 
   User({
     required this.id,
     required this.username,
     required this.email,
     required this.role,
-    this.token,
+    required this.token,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['_id'] ?? json['id'],
+      id: json['id'],
       username: json['username'],
       email: json['email'],
       role: json['role'],
@@ -32,4 +33,7 @@ class User {
       'token': token,
     };
   }
+
+  @override
+  String toString() => toJson().toString();
 }

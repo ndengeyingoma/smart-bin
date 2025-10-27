@@ -15,7 +15,7 @@ class AlertTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.warning, color: Colors.red),
+      leading: const Icon(Icons.warning, color: Colors.red),
       title: Text("Bin $binId: $message"),
       subtitle: Text(time),
     );

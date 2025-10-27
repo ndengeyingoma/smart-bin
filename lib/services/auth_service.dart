@@ -1,80 +1,66 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/user_model.dart';
 
-class AuthService with ChangeNotifier {
-  User? _user;
+class AuthService extends ChangeNotifier {
   bool _isLoading = false;
+  bool _isLoggedIn = false;
+  SharedPreferences? _prefs;
+  String? _userEmail;
 
-  User? get user => _user;
   bool get isLoading => _isLoading;
-  bool get isAuthenticated => _user != null;
-  bool get isAdmin => _user?.role == 'admin';
+  bool get isLoggedIn => _isLoggedIn;
+  String? get userEmail => _userEmail;
 
+  /// ✅ Initialize SharedPreferences before use
+  Future<void> loadUser() async {
+    _prefs = await SharedPreferences.getInstance();
+    _userEmail = _prefs?.getString('userEmail');
+    _isLoggedIn = _userEmail != null;
+    notifyListeners();
+  }
+
+  /// ✅ Login simulation (replace with real backend/Firebase if needed)
   Future<void> login(String email, String password) async {
     _isLoading = true;
     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (email == 'admin@smartbin.com' && password == 'admin123') {
-      _user = User(
-        id: '1',
-        username: 'Admin User',
-        email: email,
-        role: 'admin',
-        token: 'mock_jwt_token',
-      );
-    } else if (email == 'user@smartbin.com' && password == 'user123') {
-      _user = User(
-        id: '2',
-        username: 'Regular User',
-        email: email,
-        role: 'user',
-        token: 'mock_jwt_token',
-      );
-    } else {
-      throw Exception('Invalid credentials');
-    }
-
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user', _user!.toJson().toString());
-
-    _isLoading = false;
-    notifyListeners();
-  }
-
-  Future<void> logout() async {
-    _user = null;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('user');
-    notifyListeners();
-  }
-
-  Future<void> loadUser() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userString = prefs.getString('user');
-
-    if (userString != null) {
-      if (userString.contains('admin@smartbin.com')) {
-        _user = User(
-          id: '1',
-          username: 'Admin User',
-          email: 'admin@smartbin.com',
-          role: 'admin',
-          token: 'mock_jwt_token',
-        );
-      } else if (userString.contains('user@smartbin.com')) {
-        _user = User(
-          id: '2',
-          username: 'Regular User',
-          email: 'user@smartbin.com',
-          role: 'user',
-          token: 'mock_jwt_token',
-        );
+    try {
+      // Make sure SharedPreferences is ready
+      if (_prefs == null) {
+        await loadUser();
       }
+
+      // Simulated authentication delay
+      await Future.delayed(const Duration(seconds: 2));
+
+      // Simple validation simulation
+      if (email.isEmpty || password.isEmpty) {
+        throw Exception("Please enter email and password");
+      }
+
+      // Save the user email locally
+      await _prefs?.setString('userEmail', email);
+
+      _userEmail = email;
+      _isLoggedIn = true;
+    } catch (e) {
+      debugPrint("Login failed: $e");
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /// ✅ Logout function
+  Future<void> logout() async {
+    if (_prefs == null) {
+      await loadUser();
     }
 
+    await _prefs?.remove('userEmail');
+    _userEmail = null;
+    _isLoggedIn = false;
     notifyListeners();
   }
 }

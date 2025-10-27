@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/auth_service.dart';
 import '../dashboard/dashboard_page.dart';
-import '../../models/user_role.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
+  // return State<LoginPage> instead of exposing a private type in public API
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage>
@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage>
 
     // Initialize title animation
     _titleController = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
       vsync: this,
     )..repeat(reverse: true);
 
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage>
       _wordOffsetAnimations.add(
         Tween<Offset>(
           begin: Offset.zero,
-          end: Offset(0.0, -0.3), // Bounce upward
+          end: const Offset(0.0, -0.3), // Bounce upward
         ).animate(delayedAnimation),
       );
 
@@ -66,8 +66,10 @@ class _LoginPageState extends State<LoginPage>
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     final screenSize = MediaQuery.of(context).size;
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
+    // Available height after SafeArea and keyboard insets to avoid tiny overflows
+    final availableHeight = screenSize.height -
+        MediaQuery.of(context).padding.vertical -
+        MediaQuery.of(context).viewInsets.vertical;
 
     return Scaffold(
       body: Container(
@@ -86,7 +88,7 @@ class _LoginPageState extends State<LoginPage>
         ),
         child: SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: screenSize.height),
+            constraints: BoxConstraints(minHeight: availableHeight),
             child: SafeArea(
               child: Padding(
                 padding: EdgeInsets.all(screenSize.width * 0.05),
@@ -97,7 +99,7 @@ class _LoginPageState extends State<LoginPage>
                     Container(
                       width: screenSize.width * 0.3,
                       height: screenSize.width * 0.3,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
@@ -125,7 +127,7 @@ class _LoginPageState extends State<LoginPage>
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.9),
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 15,
@@ -174,7 +176,7 @@ class _LoginPageState extends State<LoginPage>
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 20,
@@ -190,7 +192,7 @@ class _LoginPageState extends State<LoginPage>
                               controller: _emailController,
                               decoration: InputDecoration(
                                 labelText: 'Email/Username',
-                                prefixIcon: Icon(Icons.email),
+                                prefixIcon: const Icon(Icons.email),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
@@ -201,8 +203,8 @@ class _LoginPageState extends State<LoginPage>
                               ),
                               validator: (value) =>
                                   value == null || value.isEmpty
-                                  ? 'Please enter your email'
-                                  : null,
+                                      ? 'Please enter your email'
+                                      : null,
                             ),
                             SizedBox(height: screenSize.height * 0.02),
                             TextFormField(
@@ -210,7 +212,7 @@ class _LoginPageState extends State<LoginPage>
                               obscureText: _obscurePassword,
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                prefixIcon: Icon(Icons.lock),
+                                prefixIcon: const Icon(Icons.lock),
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscurePassword
@@ -231,12 +233,12 @@ class _LoginPageState extends State<LoginPage>
                               ),
                               validator: (value) =>
                                   value == null || value.isEmpty
-                                  ? 'Please enter your password'
-                                  : null,
+                                      ? 'Please enter your password'
+                                      : null,
                             ),
                             SizedBox(height: screenSize.height * 0.03),
                             authService.isLoading
-                                ? CircularProgressIndicator()
+                                ? const CircularProgressIndicator()
                                 : ElevatedButton(
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
@@ -246,23 +248,22 @@ class _LoginPageState extends State<LoginPage>
                                             _passwordController.text,
                                           );
 
-                                          final email = _emailController.text
-                                              .trim();
-                                          final role =
-                                              email == 'admin@smartbin.com'
-                                              ? UserRole.admin
-                                              : UserRole.user;
-
+                                          final email =
+                                              _emailController.text.trim();
+                                          // If you perform async work that uses BuildContext afterwards, guard with mounted:
+                                          // await authService.login(...);
+                                          // if (!mounted) return;
+                                          // Navigator.pushReplacement(...);
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   DashboardPage(
-                                                    userName: email.split(
-                                                      '@',
-                                                    )[0],
-                                                    email: email,
-                                                  ),
+                                                userName: email.split(
+                                                  '@',
+                                                )[0],
+                                                email: email,
+                                              ),
                                             ),
                                           );
                                         } catch (e) {
@@ -295,7 +296,7 @@ class _LoginPageState extends State<LoginPage>
                                       style: TextStyle(
                                         fontSize:
                                             _getResponsiveFontSize(screenSize) *
-                                            0.8,
+                                                0.8,
                                       ),
                                     ),
                                   ),
@@ -318,16 +319,16 @@ class _LoginPageState extends State<LoginPage>
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           _getResponsiveFontSize(screenSize) *
-                                          0.7,
+                                              0.7,
                                     ),
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Text(
                                     'Together we can achieve a clean environment.',
                                     style: TextStyle(
                                       fontSize:
                                           _getResponsiveFontSize(screenSize) *
-                                          0.6,
+                                              0.6,
                                     ),
                                   ),
                                   Text(
@@ -335,7 +336,7 @@ class _LoginPageState extends State<LoginPage>
                                     style: TextStyle(
                                       fontSize:
                                           _getResponsiveFontSize(screenSize) *
-                                          0.6,
+                                              0.6,
                                     ),
                                   ),
                                 ],

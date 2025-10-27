@@ -12,7 +12,7 @@ class QuickActionButton extends StatelessWidget {
       onPressed: () {},
       icon: Icon(icon),
       label: Text(label),
-      style: ElevatedButton.styleFrom(minimumSize: Size(150, 40)),
+      style: ElevatedButton.styleFrom(minimumSize: const Size(150, 40)),
     );
   }
 }
