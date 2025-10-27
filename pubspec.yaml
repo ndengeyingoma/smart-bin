@@ -14,6 +14,8 @@ dependencies:
   google_maps_flutter: ^2.2.0
   shared_preferences: ^2.2.2
   cupertino_icons: ^1.0.8
+  firebase_core: ^2.12.0    # added
+  firebase_auth: ^4.6.0    # add if AuthService uses Firebase Auth
 
 dev_dependencies:
   flutter_test:
